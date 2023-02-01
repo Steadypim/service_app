@@ -17,13 +17,11 @@ services:
 
     depends_on:
       - database
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
   
   database:
     image: postgres:14.6-alpine
     environment:
-      - POSTGRES_DB=dbname
+      - POSTGRES_DB=dbname  
       - POSTGRES_USER=dbuser
       - POSTGRES_PASSWORD=pass
 
@@ -43,6 +41,12 @@ services:
       - redis
     depends_on:
       - redis
+      - database
+    environment:
+      - DB_HOST=database
+      - DB_NAME=dbname
+      - DB_USER=dbuser
+      - DB_PASS=pass
 
   flower:
     build:
